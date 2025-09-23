@@ -1,55 +1,112 @@
 import 'package:flutter/material.dart';
+import 'package:plant_app/data/plant_data.dart';
 import 'package:plant_app/screens/details/details_screen.dart';
 
 import '../../../constants.dart';
 
+// class RecomendsPlants extends StatelessWidget {
+//   const RecomendsPlants({
+//     Key? key,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SingleChildScrollView(
+//       scrollDirection: Axis.horizontal,
+//       child: Row(
+//         children: <Widget>[
+//           RecomendPlantCard(
+//             image: "assets/images/image_1.png",
+//             title: "Samantha",
+//             country: "Russia",
+//             price: 440,
+//             press: () {
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   builder: (context) => DetailsScreen(
+//                        id: widget.id,
+//                       name: widget.name,
+//                       imagePath: widget.imagePath,
+//                       category: widget.category,
+//                       description: widget.description,
+//                       price: widget.price,
+//                       isFavorit: widget.isFavorit,
+//                       height: widget.height,
+//                       width: widget.width,
+//                       size: widget.size,
+//                       isPopular: widget.isPopular,
+//                       isRecommended: widget.isRecommended,
+//                       quantity: 1,
+//                   ),
+//                 ),
+//               );
+//             },
+//           ),
+//           RecomendPlantCard(
+//             image: "assets/images/image_2.png",
+//             title: "Angelica",
+//             country: "Russia",
+//             price: 440,
+//             press: () {
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   builder: (context) => DetailsScreen(),
+//                 ),
+//               );
+//             },
+//           ),
+//           RecomendPlantCard(
+//             image: "assets/images/image_3.png",
+//             title: "Samantha",
+//             country: "Russia",
+//             price: 440,
+//             press: () {},
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 class RecomendsPlants extends StatelessWidget {
-  const RecomendsPlants({
-    Key? key,
-  }) : super(key: key);
+  const RecomendsPlants({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: <Widget>[
-          RecomendPlantCard(
-            image: "assets/images/image_1.png",
-            title: "Samantha",
-            country: "Russia",
-            price: 440,
+        children: recommendedPlants.map((plant) {
+          return RecomendPlantCard(
+            image: plant.imagePath,
+            title: plant.name,
+            country: plant.category, // or another field
+            price: plant.price.toInt(),
             press: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetailsScreen(),
+                  builder: (context) => DetailsScreen(
+                    id: plant.id,
+                    name: plant.name,
+                    imagePath: plant.imagePath,
+                    category: plant.category,
+                    description: plant.description,
+                    price: plant.price,
+                    isFavorit: plant.isFavorit,
+                    height: plant.height,
+                    width: plant.width,
+                    size: plant.size,
+                    isPopular: plant.isPopular,
+                    isRecommended: plant.isRecommended,
+                    quantity: plant.quantity,
+                  ),
                 ),
               );
             },
-          ),
-          RecomendPlantCard(
-            image: "assets/images/image_2.png",
-            title: "Angelica",
-            country: "Russia",
-            price: 440,
-            press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailsScreen(),
-                ),
-              );
-            },
-          ),
-          RecomendPlantCard(
-            image: "assets/images/image_3.png",
-            title: "Samantha",
-            country: "Russia",
-            price: 440,
-            press: () {},
-          ),
-        ],
+          );
+        }).toList(),
       ),
     );
   }
@@ -107,7 +164,7 @@ final VoidCallback press;
                       children: [
                         TextSpan(
                             text: "$title\n".toUpperCase(),
-                            // style: Theme.of(context).textTheme.button,
+                            style: Theme.of(context).textTheme.bodyMedium,
                             ),
                         TextSpan(
                           text: "$country".toUpperCase(),
@@ -121,10 +178,10 @@ final VoidCallback press;
                   Spacer(),
                   Text(
                     '\$$price',
-                    // style: Theme.of(context)
-                    //     .textTheme
-                    //     .button
-                    //     .copyWith(color: kPrimaryColor),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        // .copyWith(color: kPrimaryColor),
                   )
                 ],
               ),

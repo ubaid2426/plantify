@@ -229,7 +229,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
       child: Column(
         children: [
-          _buildCartHeader(item.title),
+          _buildCartHeader(item.name),
           _buildCartDetails(item),
         ],
       ),
@@ -262,7 +262,7 @@ class _CartScreenState extends State<CartScreen> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             image: DecorationImage(
-              image: _getImageProvider(item.image),
+              image: _getImageProvider(item.imagePath),
               // image: NetworkImage("https://sadqahzakaat.com${item.image}"),
               fit: BoxFit.cover,
             ),
@@ -288,37 +288,37 @@ class _CartScreenState extends State<CartScreen> {
               const SizedBox(height: 5),
               Row(
                 children: [
-                  if (item.isZakat) _buildDonationType("Zakat Donation"),
-                  if (item.isSadqah) _buildDonationType("Sadqah Donation"),
+                  // if (item.isZakat) _buildDonationType("Zakat Donation"),
+                  // if (item.isSadqah) _buildDonationType("Sadqah Donation"),
                 ],
               ),
-              if (item.headingcategory.isNotEmpty &&
-                  item.selectcategory.isNotEmpty)
+              // if (item.headingcategory.isNotEmpty &&
+              //     item.selectcategory.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(item.headingcategory),
+                      // Text(item.headingcategory),
                       const SizedBox(width: 5),
-                      Text(item.selectcategory),
+                      Text(item.category),
                     ],
                   ),
                 ),
-              if (item.gender.isNotEmpty && item.age.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(item.gender),
-                      const SizedBox(width: 5),
-                      Text(item.age),
-                    ],
-                  ),
-                ),
+              // if (item.gender.isNotEmpty && item.age.isNotEmpty)
+              //   Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 8),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Text(item.gender),
+              //         const SizedBox(width: 5),
+              //         Text(item.age),
+              //       ],
+              //     ),
+              //   ),
             ],
           ),
         ),

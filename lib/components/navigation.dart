@@ -9,6 +9,7 @@ import 'package:plant_app/screens/Profile/profile_main.dart';
 import 'package:plant_app/screens/cart/cartScreen.dart';
 import 'package:plant_app/screens/home/home_screen.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
 
@@ -35,7 +36,7 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
 
   // ... (other code remains the same)
   final List<Widget> screens = [
-     HomeScreen(),
+    HomeScreen(),
     // const Message(),
     const CartScreen(),
     const ProfileScreen(),
@@ -72,9 +73,7 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               gradient: const LinearGradient(
-                colors: [
-                 kPrimaryColor, lightGreen
-                ],
+                colors: [kPrimaryColor, lightGreen],
                 begin: Alignment.topRight,
                 end: Alignment.topLeft,
               ),
@@ -134,19 +133,18 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
                       //   color: Color.fromARGB(255, 163, 200, 100),
                       //   navigateTo: const GroupHeading(),
                       // ),
-                     
                     ],
-                ),
-                     SizedBox(height: 15),
+                  ),
+                  SizedBox(height: 15),
 
-                // Single Donation Button (Newly Added)
-                // _buildDonationButton(
-                //   context: context,
-                //   label: 'Single\nDonation',
-                //   icon: Icons.volunteer_activism,
-                //   color: Color(0xFF33A248),
-                //   navigateTo: const SingleHeading(), // Change to actual page
-                //   ),
+                  // Single Donation Button (Newly Added)
+                  // _buildDonationButton(
+                  //   context: context,
+                  //   label: 'Single\nDonation',
+                  //   icon: Icons.volunteer_activism,
+                  //   color: Color(0xFF33A248),
+                  //   navigateTo: const SingleHeading(), // Change to actual page
+                  //   ),
                 ],
               ),
             ),
@@ -330,7 +328,7 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
                     _fabAnimationController.forward();
                   },
                   child: const Icon(
-                    FontAwesomeIcons.handHoldingDollar,
+                    Icons.eco,
                     size: 30,
                   ),
                 )
@@ -461,75 +459,75 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
 
   // List<TargetFocus> _createTargets() {
   //   List<TargetFocus> targets = [];
-    
-    // targets.add(
-    //   TargetFocus(
-    //     keyTarget: navigationButton,
-    //     contents: [
-    //       TargetContent(
-    //         align: ContentAlign.top,
-    //         child: const Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           // mainAxisSize: MainAxisSize.max,
-    //           crossAxisAlignment: CrossAxisAlignment.center,
-    //           children: <Widget>[
-    //             Text(
-    //               "Three Types of Donation You perform here",
-    //               style: TextStyle(
-    //                 fontWeight: FontWeight.bold,
-    //                 color: Colors.white,
-    //                 fontSize: 20.0,
-    //               ),
-    //             ),
-    //             Text(
-    //               "1.Sadqah",
-    //               style: TextStyle(
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Colors.white,
-    //                   fontSize: 18.0),
-    //             ),
-    //             Padding(
-    //               padding: EdgeInsets.only(top: 10.0),
-    //               child: AutoSizeText(
-    //                 "One Donation, Infinite Blessings! A single act of generosity can brighten someone’s life. Whether it's food, medical aid, or education, your donation creates a lasting impact. Give today and be a source of hope! ",
-    //                 style: TextStyle(color: Colors.white, fontSize: 14),
-    //               ),
-    //             ),
-    //             Text(
-    //               "2.Contributed Donation",
-    //               style: TextStyle(
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Colors.white,
-    //                   fontSize: 18.0),
-    //             ),
-    //             Padding(
-    //               padding: EdgeInsets.only(top: 10.0),
-    //               child: AutoSizeText(
-    //                 "Join hands with others to create a lasting impact! Group donations allow multiple people to contribute towards a shared cause, whether it be building water wells, providing shelter, or supporting orphans. Together, we can complete projects faster and maximize the reward!",
-    //                 style: TextStyle(color: Colors.white, fontSize: 14),
-    //               ),
-    //             ),
-    //             Text(
-    //               "3.Individual Donation",
-    //               style: TextStyle(
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Colors.white,
-    //                   fontSize: 18.0),
-    //             ),
-    //             Padding(
-    //               padding: EdgeInsets.only(top: 10.0),
-    //               child: AutoSizeText(
-    //                 "Be the reason someone’s prayers are answered! Complete an entire donation project on your own. Whether it’s gifting a wheelchair, sponsoring a child’s education, or funding an emergency medical procedure. Your generosity can change lives.",
-    //                 style: TextStyle(color: Colors.white, fontSize: 14),
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     ],
-    //     shape: ShapeLightFocus.Circle,
-    //   ),
-    // );
+
+  // targets.add(
+  //   TargetFocus(
+  //     keyTarget: navigationButton,
+  //     contents: [
+  //       TargetContent(
+  //         align: ContentAlign.top,
+  //         child: const Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           // mainAxisSize: MainAxisSize.max,
+  //           crossAxisAlignment: CrossAxisAlignment.center,
+  //           children: <Widget>[
+  //             Text(
+  //               "Three Types of Donation You perform here",
+  //               style: TextStyle(
+  //                 fontWeight: FontWeight.bold,
+  //                 color: Colors.white,
+  //                 fontSize: 20.0,
+  //               ),
+  //             ),
+  //             Text(
+  //               "1.Sadqah",
+  //               style: TextStyle(
+  //                   fontWeight: FontWeight.bold,
+  //                   color: Colors.white,
+  //                   fontSize: 18.0),
+  //             ),
+  //             Padding(
+  //               padding: EdgeInsets.only(top: 10.0),
+  //               child: AutoSizeText(
+  //                 "One Donation, Infinite Blessings! A single act of generosity can brighten someone’s life. Whether it's food, medical aid, or education, your donation creates a lasting impact. Give today and be a source of hope! ",
+  //                 style: TextStyle(color: Colors.white, fontSize: 14),
+  //               ),
+  //             ),
+  //             Text(
+  //               "2.Contributed Donation",
+  //               style: TextStyle(
+  //                   fontWeight: FontWeight.bold,
+  //                   color: Colors.white,
+  //                   fontSize: 18.0),
+  //             ),
+  //             Padding(
+  //               padding: EdgeInsets.only(top: 10.0),
+  //               child: AutoSizeText(
+  //                 "Join hands with others to create a lasting impact! Group donations allow multiple people to contribute towards a shared cause, whether it be building water wells, providing shelter, or supporting orphans. Together, we can complete projects faster and maximize the reward!",
+  //                 style: TextStyle(color: Colors.white, fontSize: 14),
+  //               ),
+  //             ),
+  //             Text(
+  //               "3.Individual Donation",
+  //               style: TextStyle(
+  //                   fontWeight: FontWeight.bold,
+  //                   color: Colors.white,
+  //                   fontSize: 18.0),
+  //             ),
+  //             Padding(
+  //               padding: EdgeInsets.only(top: 10.0),
+  //               child: AutoSizeText(
+  //                 "Be the reason someone’s prayers are answered! Complete an entire donation project on your own. Whether it’s gifting a wheelchair, sponsoring a child’s education, or funding an emergency medical procedure. Your generosity can change lives.",
+  //                 style: TextStyle(color: Colors.white, fontSize: 14),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ],
+  //     shape: ShapeLightFocus.Circle,
+  //   ),
+  // );
   //   return targets;
   // }
 }

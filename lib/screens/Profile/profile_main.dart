@@ -87,10 +87,6 @@ class ProfileScreen extends StatelessWidget {
                   title: "My History", navigateTo: Extra(title: "History",),
                 ),
                 ProfileMenuItem(
-                  icon: 	Icons.bookmark_border,
-                  title: "Save Ads", navigateTo: Extra(title: "Save Ads",),
-                ),
-                ProfileMenuItem(
                   icon: Icons.favorite,
                   title: "My Favorites", navigateTo: Extra(title: "Favorites",),
                 ),

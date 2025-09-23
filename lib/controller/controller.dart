@@ -17,7 +17,7 @@ class FoodController extends GetxController {
   void calculateTotalPrice() {
     totalPrice.value = 0; // Reset total price
     for (var element in cartFood) {
-      totalPrice.value += element.price!; // Ensure element has a 'price' attribute
+      totalPrice.value += element.price; // Ensure element has a 'price' attribute
     }
 
     subtotalPrice.value = totalPrice.value; // Set subtotal equal to total

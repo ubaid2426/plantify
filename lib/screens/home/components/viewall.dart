@@ -12,75 +12,72 @@ class ViewAll extends StatefulWidget {
 }
 
 class _ViewAllState extends State<ViewAll> {
-    PageController controller = PageController();
-      @override
+  PageController controller = PageController();
+  @override
   void initState() {
     controller = PageController(viewportFraction: 0.6, initialPage: 0);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return 
-    // Scaffold(
-      Center(
-        child:  Column(
-          children: [
-            SizedBox(
-                  height: 35.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      for (int i = 0; i < categories.length; i++)
-                        GestureDetector(
-                          onTap: () {
-                            setState(() => selectId = categories[i].id);
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                categories[i].name,
-                                style: TextStyle(
-                                  color: selectId == i
-                                      ? kPrimaryColor
-                                      : black.withOpacity(0.7),
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              if (selectId == i)
-                                const CircleAvatar(
-                                  radius: 3,
-                                  backgroundColor: kPrimaryColor,
-                                )
-                            ],
+    return Center(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 35.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                for (int i = 0; i < categories.length; i++)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() => selectId = categories[i].id);
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          categories[i].name,
+                          style: TextStyle(
+                            color: selectId == i
+                                ? kPrimaryColor
+                                : black.withOpacity(0.7),
+                            fontSize: 16.0,
                           ),
-                        )
-                    ],
-                  ),
-                ),
-                 SizedBox(
-              height: 320.0,
-              child: PageView.builder(
-                itemCount: plants.length,
-                controller: controller,
-                physics: const BouncingScrollPhysics(),
-                padEnds: false,
-                pageSnapping: true,
-                onPageChanged: (value) => setState(() => activePage = value),
-                itemBuilder: (itemBuilder, index) {
-                  bool active = index == activePage;
-                  return slider(active, index);
-                },
-              ),
+                        ),
+                        if (selectId == i)
+                          const CircleAvatar(
+                            radius: 3,
+                            backgroundColor: kPrimaryColor,
+                          )
+                      ],
+                    ),
+                  )
+              ],
             ),
-          ],
-        ),
-      
-           
-      // )
+          ),
+          SizedBox(
+            height: 320.0,
+            child: PageView.builder(
+              itemCount: plants.length,
+              controller: controller,
+              physics: const BouncingScrollPhysics(),
+              padEnds: false,
+              pageSnapping: true,
+              onPageChanged: (value) => setState(() => activePage = value),
+              itemBuilder: (itemBuilder, index) {
+                bool active = index == activePage;
+                return slider(active, index);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
-   AnimatedContainer slider(active, index) {
+
+  AnimatedContainer slider(active, index) {
     double margin = active ? 20 : 30;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
@@ -89,15 +86,16 @@ class _ViewAllState extends State<ViewAll> {
       child: mainPlantsCard(index),
     );
   }
-    Widget mainPlantsCard(index) {
+
+  Widget mainPlantsCard(index) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (builder) => DetailsScreen(),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (builder) => DetailsScreen(),
+        //   ),
+        // );
       },
       child: Container(
         padding: const EdgeInsets.all(8.0),
@@ -164,6 +162,7 @@ class _ViewAllState extends State<ViewAll> {
       ),
     );
   }
-    int selectId = 0;
+
+  int selectId = 0;
   int activePage = 0;
 }

@@ -18,18 +18,17 @@ class EmptyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   double width= MediaQuery.of(context).size.width;
+   double height= MediaQuery.of(context).size.height;
     return condition
         ? child
-        : Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-              
-                    Image.asset("Assests/images/screen1/empty_cart2.png", width: 300),
-                const SizedBox(height: 10),
-                Text(title, style: Theme.of(context).textTheme.displayMedium)
-              ],
-            ),
-          );
+        : Stack(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+                Image.asset("assets/images/empty_card.jpg", width: width, height: height,),
+            const SizedBox(height: 10),
+            Center(child: Text(title, style: Theme.of(context).textTheme.displayMedium))
+          ],
+        );
   }
 }

@@ -5,9 +5,10 @@ import '../../../constants.dart';
 import 'icon_card.dart';
 
 class ImageAndIcons extends StatelessWidget {
+    final String imagePath;
   const ImageAndIcons({
     Key? key,
-    required this.size,
+    required this.size, required this.imagePath,
   }) : super(key: key);
 
   final Size size;
@@ -64,7 +65,7 @@ class ImageAndIcons extends StatelessWidget {
                 image: DecorationImage(
                   alignment: Alignment.centerLeft,
                   fit: BoxFit.cover,
-                  image: AssetImage("assets/images/img.png"),
+                  image: AssetImage(imagePath),
                 ),
               ),
             ),

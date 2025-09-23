@@ -112,3 +112,57 @@ List<PlantModel> populerPlants = [
     isRecommended: true,
   ),
 ];
+
+
+
+
+List<PlantModel> recommendedPlants = [
+  PlantModel(
+    id: 0,
+    name: 'Aloe Vera',
+    imagePath: 'assets/images/01.png',
+    category: 'Indoor',
+    description:
+        'Aloe Vera is a popular indoor plant known for its medicinal properties and low maintenance needs.',
+    price: 50.00,
+    isFavorit: false,
+    height: 200,
+    width: 80,
+    size: 'medium',
+    isPopular: false,
+    isRecommended: true,
+    quantity: 15,
+  ),
+  PlantModel(
+    id: 1,
+    name: 'Snake Plant',
+    imagePath: 'assets/images/02.png',
+    category: 'Indoor',
+    description:
+        'Snake Plant is an easy-to-care-for plant that can survive with little light and water.',
+    price: 65.00,
+    isFavorit: false,
+    height: 250,
+    width: 90,
+    size: 'large',
+    isPopular: false,
+    isRecommended: true,
+    quantity: 10,
+  ),
+  PlantModel(
+    id: 2,
+    name: 'Peace Lily',
+    imagePath: 'assets/images/03.png',
+    category: 'Indoor',
+    description:
+        'Peace Lily adds a touch of elegance to your space with its beautiful white blooms.',
+    price: 80.00,
+    isFavorit: false,
+    height: 220,
+    width: 85,
+    size: 'medium',
+    isPopular: false,
+    isRecommended: true,
+    quantity: 12,
+  ),
+];
