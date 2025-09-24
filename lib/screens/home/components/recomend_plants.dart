@@ -1,107 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:plant_app/data/plant_data.dart';
+import 'package:plant_app/models/Plant.dart';
 import 'package:plant_app/screens/details/details_screen.dart';
-
 import '../../../constants.dart';
 
-// class RecomendsPlants extends StatelessWidget {
-//   const RecomendsPlants({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       scrollDirection: Axis.horizontal,
-//       child: Row(
-//         children: <Widget>[
-//           RecomendPlantCard(
-//             image: "assets/images/image_1.png",
-//             title: "Samantha",
-//             country: "Russia",
-//             price: 440,
-//             press: () {
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                   builder: (context) => DetailsScreen(
-//                        id: widget.id,
-//                       name: widget.name,
-//                       imagePath: widget.imagePath,
-//                       category: widget.category,
-//                       description: widget.description,
-//                       price: widget.price,
-//                       isFavorit: widget.isFavorit,
-//                       height: widget.height,
-//                       width: widget.width,
-//                       size: widget.size,
-//                       isPopular: widget.isPopular,
-//                       isRecommended: widget.isRecommended,
-//                       quantity: 1,
-//                   ),
-//                 ),
-//               );
-//             },
-//           ),
-//           RecomendPlantCard(
-//             image: "assets/images/image_2.png",
-//             title: "Angelica",
-//             country: "Russia",
-//             price: 440,
-//             press: () {
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                   builder: (context) => DetailsScreen(),
-//                 ),
-//               );
-//             },
-//           ),
-//           RecomendPlantCard(
-//             image: "assets/images/image_3.png",
-//             title: "Samantha",
-//             country: "Russia",
-//             price: 440,
-//             press: () {},
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 class RecomendsPlants extends StatelessWidget {
-  const RecomendsPlants({Key? key}) : super(key: key);
+  final List<Plant> plants; // 👈 dynamic list passed from parent
+  const RecomendsPlants({Key? key, required this.plants}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: recommendedPlants.map((plant) {
+        children: plants.map((plant) {
           return RecomendPlantCard(
-            image: plant.imagePath,
+            image: plant.images.isNotEmpty ? plant.images.first.image : "",
             title: plant.name,
-            country: plant.category, // or another field
+            country: plant.category,
             price: plant.price.toInt(),
             press: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetailsScreen(
-                    id: plant.id,
-                    name: plant.name,
-                    imagePath: plant.imagePath,
-                    category: plant.category,
-                    description: plant.description,
-                    price: plant.price,
-                    isFavorit: plant.isFavorit,
-                    height: plant.height,
-                    width: plant.width,
-                    size: plant.size,
-                    isPopular: plant.isPopular,
-                    isRecommended: plant.isRecommended,
-                    quantity: plant.quantity,
-                  ),
+                  builder: (context) => DetailsScreen(plant: plant),
                 ),
               );
             },
@@ -124,13 +45,13 @@ class RecomendPlantCard extends StatelessWidget {
 
   final String image, title, country;
   final int price;
-  // final Function press;
-final VoidCallback press;
+  final VoidCallback press;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         left: kDefaultPadding,
         top: kDefaultPadding / 2,
         bottom: kDefaultPadding * 2.5,
@@ -138,20 +59,29 @@ final VoidCallback press;
       width: size.width * 0.4,
       child: Column(
         children: <Widget>[
-          Image.asset(image),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              image,
+              height: 120,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => const Icon(Icons.image),
+            ),
+          ),
           GestureDetector(
             onTap: press,
             child: Container(
-              padding: EdgeInsets.all(kDefaultPadding / 2),
+              padding: const EdgeInsets.all(kDefaultPadding / 2),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 10),
+                    offset: const Offset(0, 10),
                     blurRadius: 50,
                     color: kPrimaryColor.withOpacity(0.23),
                   ),
@@ -163,11 +93,11 @@ final VoidCallback press;
                     text: TextSpan(
                       children: [
                         TextSpan(
-                            text: "$title\n".toUpperCase(),
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+                          text: "$title\n".toUpperCase(),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                         TextSpan(
-                          text: "$country".toUpperCase(),
+                          text: country.toUpperCase(),
                           style: TextStyle(
                             color: kPrimaryColor.withOpacity(0.5),
                           ),
@@ -175,13 +105,13 @@ final VoidCallback press;
                       ],
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                     '\$$price',
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
-                        // .copyWith(color: kPrimaryColor),
+                        ?.copyWith(color: kPrimaryColor),
                   )
                 ],
               ),

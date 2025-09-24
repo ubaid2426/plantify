@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
       isLoading = true;
     });
 
-    var url = Uri.parse('https://sadqahzakaat.com/api/auth/jwt/create/');
+    var url = Uri.parse('http://127.0.0.1:8000/api/auth/jwt/create/');
     Map<String, String> body = {
       'email': email,
       'password': password,
@@ -384,7 +384,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       );
     });
 
-    var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/reset_password/');
+    var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/reset_password/');
     Map<String, String> body = {
       'email': email,
     };

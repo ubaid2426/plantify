@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plant_app/constants.dart';
+import 'package:plant_app/screens/Message/message.dart';
 import 'package:plant_app/screens/Profile/profile_main.dart';
 import 'package:plant_app/screens/cart/cartScreen.dart';
 import 'package:plant_app/screens/home/home_screen.dart';
@@ -38,6 +39,7 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
   final List<Widget> screens = [
     HomeScreen(),
     // const Message(),
+    const Message(),
     const CartScreen(),
     const ProfileScreen(),
   ];

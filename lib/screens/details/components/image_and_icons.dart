@@ -63,9 +63,9 @@ class ImageAndIcons extends StatelessWidget {
                   ),
                 ],
                 image: DecorationImage(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.centerRight,
                   fit: BoxFit.cover,
-                  image: AssetImage(imagePath),
+                  image: NetworkImage(imagePath),
                 ),
               ),
             ),

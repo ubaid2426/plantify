@@ -21,14 +21,9 @@ class _SignupState extends State<Signup> {
   TextEditingController name = TextEditingController();
   // final phoneNumberController = PhoneNumberEditingController();
   TextEditingController email = TextEditingController();
-  TextEditingController whatsapp = TextEditingController();
   TextEditingController contact = TextEditingController();
-  TextEditingController residense = TextEditingController();
-  TextEditingController nationality = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController conpassword = TextEditingController();
-  bool donor = false;
-  bool needy = false;
   bool isLoading = false;
   String message = '';
   String countryCode = '+92'; // Default country code
@@ -38,28 +33,18 @@ class _SignupState extends State<Signup> {
       String name,
       String email,
       String password,
-      String nationality,
-      String whatsapp,
-      String residense,
-      bool needy,
-      bool donor,
       String combinedOutput) async {
     var url = Uri.parse(
         // 'https://sadqahzakaat.com/api/auth/users/'); // Replace with your IP
-        'https://sadqahzakaat.com/api/auth/users/'); // Replace with your IP
+        'http://127.0.0.1:8000/api/auth/users/'); // Replace with your IP
 
     // Construct the payload
     Map<dynamic, dynamic> payload = {
       'email': email,
       'name': name,
-      'nationality': nationality,
-      'whatsapp_number': whatsapp,
-      'residense': residense,
       'contact_number': combinedOutput,
       'password': password,
       're_password': password, // Ensure this matches the API requirements
-      'donor': donor,
-      'needy': needy,
     };
 
     try {
@@ -264,9 +249,6 @@ class _SignupState extends State<Signup> {
                       _buildTextField("Email", email),
                       buildPhone(),
                       // buildPhone("Contact Number", phoneNumberController),
-                      _buildTextField("WhatsApp Number", whatsapp),
-                      _buildTextField("Nationality", nationality),
-                      _buildTextField("Country Of Residense", residense),
                       _buildTextField("Password", password, isPassword: true),
                       _buildTextField("Confirm Password", conpassword,
                           isPassword: true),
@@ -283,12 +265,6 @@ class _SignupState extends State<Signup> {
                                   name.text,
                                   email.text,
                                   password.text,
-                                  nationality.text,
-                                  // phoneNumberController.value.toString(),
-                                  whatsapp.text,
-                                  residense.text,
-                                  needy,
-                                  donor,
                                   combinedOutput.toString()
                                   // phoneNumberController.value.toString(),
                                   );
@@ -466,32 +442,6 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  Widget buildDonorandNeedy() {
-    return Column(
-      children: [
-        buildSwitch(
-          label: "Are You Donor ?",
-          value: donor,
-          onChanged: (value) {
-            setState(() {
-              donor = value!;
-              if (value) needy = false;
-            });
-          },
-        ),
-        buildSwitch(
-          label: "Are You Needy ?",
-          value: needy,
-          onChanged: (value) {
-            setState(() {
-              needy = value!;
-              if (value) donor = false;
-            });
-          },
-        ),
-      ],
-    );
-  }
 
   Widget buildSwitch({
     required String label,

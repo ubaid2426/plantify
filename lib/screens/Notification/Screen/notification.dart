@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:plant_app/models/notification_model.dart';
 import 'package:plant_app/screens/Notification/Screen/Bloc/notification_bloc.dart';
 import 'package:plant_app/screens/Notification/Screen/Bloc/notification_event.dart';
 import 'package:plant_app/screens/Notification/Screen/Bloc/notification_state.dart';

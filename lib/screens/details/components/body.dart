@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:plant_app/constants.dart';
 import 'package:plant_app/data/plant_data.dart';
+import 'package:plant_app/models/Plant.dart';
 import 'package:plant_app/models/plant_model.dart';
 import 'package:plant_app/screens/cart/cartScreen.dart';
 
@@ -10,47 +11,41 @@ import 'image_and_icons.dart';
 import 'title_and_price.dart';
 
 class Body extends StatefulWidget {
-  final int id;
-  final String name;
-  final String imagePath;
-  final String category;
-  final String description;
-  final double price;
-  final double width;
-  final double height;
-  final String size;
-  final bool isPopular;
-  final bool isRecommended;
-  final bool isFavorit;
-  final double quantity;
-  Body(
-      {super.key,
-      required this.id,
-      required this.price,
-      required this.name,
-      required this.imagePath,
-      required this.category,
-      required this.description,
-      required this.width,
-      required this.height,
-      required this.size,
-      required this.isPopular,
-      required this.isRecommended,
-      required this.isFavorit,
-      required this.quantity});
+  final Plant plant;
+  Body({
+    super.key,
+    required this.plant,
+  });
   @override
   _BodyState createState() => _BodyState();
+
 }
 
 class _BodyState extends State<Body> {
+     double totalPrice = 0;
+     int quantity = 1;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          ImageAndIcons(size: size, imagePath: widget.imagePath,),
-          TitleAndPrice(title: widget.name, country: "Russia", price: widget.price, description: widget.description,),
+          ImageAndIcons(
+            size: size,
+            imagePath: widget.plant.images.first.image,
+          ),
+          TitleAndPrice(
+            title: widget.plant.name,
+            country: "Russia",
+            price: widget.plant.price,
+            description: widget.plant.description,
+            onTotalPriceChanged: (newTotal, qty) {
+              setState(() {
+                totalPrice = newTotal;
+                quantity = qty;
+              });
+            },
+          ),
           SizedBox(height: kDefaultPadding),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,18 +85,18 @@ class _BodyState extends State<Body> {
                   ),
                   onPressed: () {
                     PlantModel plant = PlantModel(
-                      id: widget.id,
-                      name: widget.name,
-                      imagePath: widget.imagePath,
-                      category: widget.category,
-                      description: widget.description,
-                      price: widget.price,
-                      isFavorit: widget.isFavorit,
-                      height: widget.height,
-                      width: widget.width,
-                      size: widget.size,
-                      isPopular: widget.isPopular,
-                      isRecommended: widget.isRecommended,
+                      id: widget.plant.id,
+                      name: widget.plant.name,
+                      imagePath: widget.plant.images.first.image,
+                      category: widget.plant.category,
+                      description: widget.plant.description,
+                      price: totalPrice,
+                      isFavorit: widget.plant.heart,
+                      height: widget.plant.height,
+                      width: widget.plant.width,
+                      size: widget.plant.size,
+                      isPopular: widget.plant.popular,
+                      isRecommended: widget.plant.recommended,
                       quantity: 1,
                     );
                     controller.addToCart(plant); // <-- Call controller method

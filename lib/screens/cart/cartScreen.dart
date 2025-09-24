@@ -9,6 +9,7 @@ final FoodController controller = Get.put(FoodController());
 List<Map<String, dynamic>> getCartDetails() {
   return controller.cartFood.map((item) {
     return {
+      'id': item.id,
       'title': item.name,
       'amount': item.price,
       'image': item.imagePath,
@@ -125,22 +126,16 @@ class _CartScreenState extends State<CartScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => PaymentMethod(
-                          placeholderText: "${controller.subtotalPrice.value}",
-                          donationtitle:
-                              cartDetails.map((e) => e['title']).join(', '),
-                          amount:
-                              cartDetails.map((e) => e['amount']).join(', '),
                           quantity:
                               cartDetails.map((e) => e['quantity']).join(', '),
-                          headingcategory: cartDetails
-                              .map((e) => e['headingcategory'])
-                              .join(', '),
-                          age: cartDetails.map((e) => e['age']).join(', '),
-                          gender:
-                              cartDetails.map((e) => e['gender']).join(', '),
                           selectcategory: cartDetails
                               .map((e) => e['selectcategory'])
                               .join(', '),
+                              id: cartDetails.map((e) => e['id']).join(', '),
+                              unitprice: double.tryParse(cartDetails.first['amount'].toString()),
+  
+                                  amount: _calculateTotal().toString(),
+
                         ),
                       ),
                     ).then((_) {
@@ -261,11 +256,16 @@ class _CartScreenState extends State<CartScreen> {
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            image: DecorationImage(
-              image: _getImageProvider(item.imagePath),
+            // image: DecorationImage(
+              image: DecorationImage(
+                  alignment: Alignment.centerRight,
+                  fit: BoxFit.cover,
+                  image: NetworkImage(item.imagePath),
+                ),
+              // image: _getImageProvider(item.imagePath),
               // image: NetworkImage("https://sadqahzakaat.com${item.image}"),
-              fit: BoxFit.cover,
-            ),
+           
+            // ),
           ),
         ),
         Expanded(
@@ -301,8 +301,8 @@ class _CartScreenState extends State<CartScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Text(item.headingcategory),
-                      const SizedBox(width: 5),
                       Text(item.category),
+                      const SizedBox(width: 5),
                     ],
                   ),
                 ),
@@ -366,7 +366,7 @@ class _CartScreenState extends State<CartScreen> {
 ImageProvider _getImageProvider(String image) {
   // print("https://sadqahzakaat.com$image");
   if (image.startsWith('/data/') || image.startsWith('https')) {
-    return NetworkImage('https://sadqahzakaat.com$image');
+    return NetworkImage(image);
   } else {
     return AssetImage(image);
   }

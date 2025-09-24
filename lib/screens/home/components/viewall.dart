@@ -1,29 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:plant_app/constants.dart';
 import 'package:plant_app/data/category_model.dart';
-import 'package:plant_app/data/plant_data.dart';
+import 'package:plant_app/models/Plant.dart';
 import 'package:plant_app/screens/details/details_screen.dart';
 
 class ViewAll extends StatefulWidget {
-  const ViewAll({Key? key}) : super(key: key);
+  final List<Plant> plants; // 👈 now data comes from parent
+
+  const ViewAll({Key? key, required this.plants}) : super(key: key);
 
   @override
   State<ViewAll> createState() => _ViewAllState();
 }
 
 class _ViewAllState extends State<ViewAll> {
-  PageController controller = PageController();
-  @override
-  void initState() {
-    controller = PageController(viewportFraction: 0.6, initialPage: 0);
-    super.initState();
-  }
+  int selectId = 0;
+  int activePage = 0;
+  PageController controller =
+      PageController(viewportFraction: 0.6, initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
+    // Apply category filter
+    List<Plant> filteredPlants = selectId == 0
+        ? widget.plants
+        : widget.plants.where((p) {
+            if (selectId == 1) return p.category.toLowerCase() == 'outdoor';
+            if (selectId == 2) return p.category.toLowerCase() == 'indoor';
+            if (selectId == 3) return p.name.toLowerCase().contains("office");
+            if (selectId == 4) return p.name.toLowerCase().contains("garden");
+            return true;
+          }).toList();
+
     return Center(
       child: Column(
         children: [
+          // Category Row
           SizedBox(
             height: 35.0,
             child: Row(
@@ -57,18 +69,18 @@ class _ViewAllState extends State<ViewAll> {
               ],
             ),
           ),
+          // Plants List
           SizedBox(
             height: 320.0,
             child: PageView.builder(
-              itemCount: plants.length,
+              itemCount: filteredPlants.length,
               controller: controller,
               physics: const BouncingScrollPhysics(),
               padEnds: false,
-              pageSnapping: true,
               onPageChanged: (value) => setState(() => activePage = value),
-              itemBuilder: (itemBuilder, index) {
+              itemBuilder: (context, index) {
                 bool active = index == activePage;
-                return slider(active, index);
+                return slider(active, filteredPlants[index]);
               },
             ),
           ),
@@ -77,25 +89,25 @@ class _ViewAllState extends State<ViewAll> {
     );
   }
 
-  AnimatedContainer slider(active, index) {
+  AnimatedContainer slider(bool active, Plant plant) {
     double margin = active ? 20 : 30;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOutCubic,
       margin: EdgeInsets.all(margin),
-      child: mainPlantsCard(index),
+      child: mainPlantsCard(plant),
     );
   }
 
-  Widget mainPlantsCard(index) {
+  Widget mainPlantsCard(Plant plant) {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (builder) => DetailsScreen(),
-        //   ),
-        // );
+        // Navigate to DetailsScreen with plant object
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsScreen(plant: plant),
+          ),
+        );
       },
       child: Container(
         padding: const EdgeInsets.all(8.0),
@@ -115,17 +127,10 @@ class _ViewAllState extends State<ViewAll> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: lightGreen,
-                boxShadow: [
-                  BoxShadow(
-                    color: black.withOpacity(0.05),
-                    blurRadius: 15,
-                    offset: const Offset(5, 5),
-                  ),
-                ],
                 borderRadius: BorderRadius.circular(25.0),
                 image: DecorationImage(
-                  image: AssetImage(plants[index].imagePath),
+                  image: NetworkImage(
+                      plant.images.isNotEmpty ? plant.images.first.image : ''),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -148,7 +153,7 @@ class _ViewAllState extends State<ViewAll> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Text(
-                  '${plants[index].name} - \$${plants[index].price.toStringAsFixed(0)}',
+                  '${plant.name} - \$${plant.price.toStringAsFixed(0)}',
                   style: TextStyle(
                     color: black.withOpacity(0.7),
                     fontWeight: FontWeight.bold,
@@ -162,7 +167,4 @@ class _ViewAllState extends State<ViewAll> {
       ),
     );
   }
-
-  int selectId = 0;
-  int activePage = 0;
 }

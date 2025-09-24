@@ -9,34 +9,25 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 import 'package:plant_app/components/navigation.dart';
+import 'package:plant_app/models/oder_detail.dart';
 import 'package:plant_app/models/payment_detail.dart';
 import 'package:plant_app/screens/Login/Screen/login_page.dart';
 
 const storage = FlutterSecureStorage();
 
 class PaymentMethod extends StatefulWidget {
-  final String? placeholderText;
-  final String? donationtitle;
-  final String? iszakat;
-  final String? issadqah;
+  final String? id;
   final String? amount;
-  final String? age;
-  final String? gender;
-  final String? headingcategory;
   final String? selectcategory;
   final String? quantity;
+  final double? unitprice;
   const PaymentMethod({
     super.key,
-    this.placeholderText,
-    this.donationtitle,
-    this.iszakat,
-    this.issadqah,
     this.amount,
     this.quantity,
-    this.age,
-    this.gender,
-    this.headingcategory,
     this.selectcategory,
+    this.unitprice,
+    this.id,
   });
 
   @override
@@ -66,8 +57,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     try {
       String? donorId = await storage.read(key: 'user_id');
       final response = await http.get(
-        Uri.parse(
-            'https://sadqahzakaat.com/data/donor-history/$donorId/status/'),
+        Uri.parse('http://127.0.0.1:8000/data/donor-history/$donorId/status/'),
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -81,8 +71,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   double _calculateTotalP() {
     // Convert placeholderText to double
-    final double subtotal =
-        double.tryParse(widget.placeholderText.toString()) ?? 0.9;
+    final double subtotal = double.tryParse(widget.amount.toString()) ?? 0.9;
     const double taxRate = 0.05; // 5% tax
 
     // Calculate total
@@ -91,109 +80,68 @@ class _PaymentMethodState extends State<PaymentMethod> {
     return total;
   }
 
-  Future<PaymentDetail?> recordDonation() async {
-    String title = widget.donationtitle!;
-    List<String> donationList = title.split(',').map((e) => e.trim()).toList();
-    List<bool> issadqahList = widget.issadqah!
-        .split(',')
-        .map((value) => value.trim() == 'true')
-        .toList();
-    List<bool> iszakatList = widget.iszakat!
-        .split(',')
-        .map((value) => value.trim() == 'true')
-        .toList();
-    List<double> convertedValues = widget.amount!
-        .split(',')
-        .map((value) => double.tryParse(value.trim()) ?? 0.0)
-        .toList();
-    List<double> convertedQuantity = widget.quantity!
-        .split(',')
-        .map((value) => double.tryParse(value.trim()) ?? 0.0)
-        .toList();
-    String headcategory = widget.headingcategory!;
-    List<String> headcategoryList =
-        headcategory.split(',').map((e) => e.trim()).toList();
-    String gen = widget.gender!;
-    List<String> genList = gen.split(',').map((e) => e.trim()).toList();
-    String agecheck = widget.age!;
-    List<String> agecheckList =
-        agecheck.split(',').map((e) => e.trim()).toList();
-    String scategory = widget.selectcategory!;
-    List<String> scategoryList =
-        scategory.split(',').map((e) => e.trim()).toList();
+Future<void> placeOrder() async {
+  String? token = await storage.read(key: 'access_token');
+  if (token == null) {
+    showMessage('Error: Missing user token.');
+    return;
+  }
 
-    try {
-      String? token = await storage.read(key: 'access_token');
-      String? Email = await storage.read(key: 'email');
-      if ([token].contains(null)) {
-        showMessage('Error: Missing user details.');
-        return null;
-      }
+  try {
+    // Example: multiple values passed as comma-separated strings in widget
+    List<String> idList =
+        widget.id!.split(',').map((e) => e.trim()).toList();
+    List<String> quantityList =
+        widget.quantity!.split(',').map((e) => e.trim()).toList();
 
-      final payload = {
-        "donor_name": nameController.text,
-        "donor_id": userIdController.text,
-        "email": Email,
-        "is_zakat": iszakatList.map((isZakat) => {"isZakat": isZakat}).toList(),
-        "is_sadqah":
-            issadqahList.map((isSadqah) => {"isSadqah": isSadqah}).toList(),
-        "donationtitle": donationList
-            .map((donationtitle) => {"donationtitle": donationtitle})
-            .toList(),
-        "donations":
-            convertedValues.map((amount) => {"amount": amount}).toList(),
-        "donations1": convertedQuantity
-            .map((quantity) => {"quantity": quantity})
-            .toList(),
-        "headingcategory": headcategoryList
-            .map((headingcategory) => {"headingcategory": headingcategory})
-            .toList(),
-        "gender": genList.map((gender) => {"gender": gender}).toList(),
-        "age": agecheckList.map((age) => {"age": age}).toList(),
-        "selectcategory": scategoryList
-            .map((selectcategory) => {"selectcategory": selectcategory})
-            .toList(),
-      };
-      // print(payload);
-      // Create a MultipartRequest
-      final request = http.MultipartRequest(
-        'POST',
-        // Uri.parse('https://sadqahzakaat.com/data/donor-history/'),
-        Uri.parse('https://sadqahzakaat.com/data/donor-history/'),
-      )
-        ..headers['Authorization'] = 'JWT $token'
-        ..fields['data'] = jsonEncode(payload); // Add JSON payload as a field
-
-      // Add image file if it exists
-      if (imageFile != null) {
-        request.files.add(await http.MultipartFile.fromPath(
-          'payment_image',
-          imageFile!.path,
-        ));
-      }
-
-      // Send the request
-      final response = await request.send();
-
-      // Handle the response
-      if (response.statusCode == 200) {
-        // ignore: use_build_context_synchronously
-        _showSuccessDialog(context);
-        final responseBody = await response.stream.bytesToString();
-        showMessage('Donation recorded successfully');
-        return PaymentDetail.fromJson(jsonDecode(responseBody));
-      } else {
-        final errorBody = await response.stream.bytesToString();
-        showMessage(
-            'Failed to record donation. Code: ${response.statusCode}, Body: $errorBody');
-        // print("Body: $errorBody");
-      }
-    } catch (e) {
-      showMessage('Error: $e');
+    // Convert to List<Map<String, dynamic>>
+    final productsList = <Map<String, dynamic>>[];
+    for (int i = 0; i < idList.length; i++) {
+      productsList.add({
+        "id": int.tryParse(idList[i]) ?? 0,
+        "quantity": int.tryParse(quantityList[i]) ?? 1,
+      });
     }
 
-    return null;
+    // Wrap payload in JSON
+    final payload = {
+      "order_data": {
+        "products": productsList,
+        "payment_status": "pending",
+      }
+    };
+
+    // Multipart request (for optional payment image)
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://127.0.0.1:8000/plantinfo/plantinfo/orders/purchase/'),
+    );
+
+    request.headers['Authorization'] = 'JWT $token';
+    request.fields['order_data'] = jsonEncode(payload['order_data']);
+
+    if (imageFile != null) {
+      request.files.add(await http.MultipartFile.fromPath(
+        'payment_image',
+        imageFile!.path,
+      ));
+    }
+
+    final response = await request.send();
+    final responseBody = await response.stream.bytesToString();
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      showMessage('Order placed successfully');
+      _showSuccessDialog(context);
+    } else {
+      showMessage(
+          'Failed: ${response.statusCode}, Body: $responseBody');
+    }
+  } catch (e) {
+    showMessage('Error placing order: $e');
   }
+}
+
 
   void _showSuccessDialog(BuildContext context) {
     showDialog(
@@ -281,7 +229,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     });
 
     try {
-      var url = Uri.parse('https://sadqahzakaat.com/api/auth/users/me/');
+      var url = Uri.parse('http://127.0.0.1:8000/api/auth/users/me/');
       var response = await http.get(
         url,
         headers: {
@@ -371,48 +319,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
   }
-
-  // UI Components
-  // Widget buildPaymentMethodCard({
-  //   required String title,
-  //   required String accountNumber,
-  //   required String bankName,
-  //   required String accountHolder,
-  //   required IconData icon,
-  // }) {
-  //   return Card(
-  //     elevation: 5,
-  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(20.0),
-  //       child: Row(
-  //         children: [
-  //           Icon(icon, size: 40, color: const Color(0xFF7fc23a)),
-  //           const SizedBox(width: 20),
-  //           Expanded(
-  //             child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Text(
-  //                   title,
-  //                   style: const TextStyle(
-  //                     fontSize: 18,
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                 ),
-  //                 const SizedBox(height: 10),
-  //                 Text('Account Number: $accountNumber'),
-  //                 Text('Bank Name: $bankName'),
-  //                 Text('Account Holder: $accountHolder'),
-  //               ],
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-// import 'package:flutter/material.dart';
 
   Widget buildPaymentMethodCard({
     required String title,
@@ -567,11 +473,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
             ),
             onPressed: _pickImage,
           ),
-          // CustomButton(
-          //   title: "Choose Image",
-          //   icon: FontAwesomeIcons.image,
-          //   onNavigate: _pickImage,
-          // ),
         ),
       ],
     );
@@ -621,43 +522,43 @@ class _PaymentMethodState extends State<PaymentMethod> {
             children: [
               buildPaymentMethodCard(
                 title: 'Local Bank Transfer',
-                accountNumber: '3088383000001023',
+                accountNumber: '308218383wew232000001023',
                 bankName: 'Faysal Bank',
-                accountHolder: 'Zuha Rashid',
+                accountHolder: 'M. Shahid',
                 icon: FontAwesomeIcons.buildingColumns,
               ),
               const SizedBox(height: 20),
               buildPaymentMethodCard(
                 title: 'International Donors',
-                accountNumber: 'PK08FAYS3221301000002475',
+                accountNumber: 'PK08FAYS322112301000w23212002475',
                 bankName: 'Faysal Bank',
-                accountHolder: 'Waduha Welfare Organization',
+                accountHolder: 'Plantify Nursery',
                 icon: FontAwesomeIcons.globe,
               ),
               const SizedBox(height: 20),
               buildPaymentMethodCard(
                 title: 'Jazzcash',
-                accountNumber: '03363582087',
+                accountNumber: '0336334332087',
                 bankName: 'Jazzcash',
-                accountHolder: 'Zuha Rashid',
+                accountHolder: 'M. Shahid',
                 // ignore: deprecated_member_use
                 icon: FontAwesomeIcons.mobileAlt,
               ),
               const SizedBox(height: 20),
               buildPaymentMethodCard(
                 title: 'Sadapay & Easypaisa',
-                accountNumber: '0336-3582087',
+                accountNumber: '0336-35874327',
                 bankName: 'Sadapay & Easypaisa',
-                accountHolder: 'Zuha Rashid',
+                accountHolder: 'M. Shahid',
                 // ignore: deprecated_member_use
                 icon: FontAwesomeIcons.mobileAlt,
               ),
               const SizedBox(height: 20),
               buildPaymentMethodCard(
-                title: 'PayPal (For International \n Donors)',
-                accountNumber: 'paypal@donationexample.com',
+                title: 'PayPal (For International)',
+                accountNumber: 'paypal@gmail.com',
                 bankName: 'PayPal',
-                accountHolder: 'Zuha Rashid',
+                accountHolder: 'M. Shahid',
                 icon: FontAwesomeIcons.paypal,
               ),
               const SizedBox(height: 20),
@@ -665,8 +566,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    _buildRow(
-                        'Subtotal', "Rs. ${widget.placeholderText.toString()}"),
+                    _buildRow('Subtotal', "Rs. ${widget.amount.toString()}"),
                     const SizedBox(height: 10),
                     _buildRow('Services Charges',
                         "5%"), // Assuming no taxes for donations
@@ -702,7 +602,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
-                  onPressed: recordDonation,
+                  onPressed: placeOrder,
                 ),
               ),
               const SizedBox(height: 40),
