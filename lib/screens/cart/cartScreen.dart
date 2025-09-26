@@ -64,22 +64,6 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       title: const Text("Cart Screen"),
-      // Row(
-      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //   children: [
-      //     const Text("Cart Screen"),
-
-      //     IconButton(
-      //       icon: const Icon(Icons.shopping_cart),
-      //       onPressed: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(builder: (context) => const Navigation()),
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
     );
   }
 
@@ -263,7 +247,7 @@ class _CartScreenState extends State<CartScreen> {
                   image: NetworkImage(item.imagePath),
                 ),
               // image: _getImageProvider(item.imagePath),
-              // image: NetworkImage("https://sadqahzakaat.com${item.image}"),
+              // image: NetworkImage("https://ninininin.com${item.image}"),
            
             // ),
           ),
@@ -286,14 +270,6 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               ),
               const SizedBox(height: 5),
-              Row(
-                children: [
-                  // if (item.isZakat) _buildDonationType("Zakat Donation"),
-                  // if (item.isSadqah) _buildDonationType("Sadqah Donation"),
-                ],
-              ),
-              // if (item.headingcategory.isNotEmpty &&
-              //     item.selectcategory.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
@@ -306,19 +282,6 @@ class _CartScreenState extends State<CartScreen> {
                     ],
                   ),
                 ),
-              // if (item.gender.isNotEmpty && item.age.isNotEmpty)
-              //   Padding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 8),
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         Text(item.gender),
-              //         const SizedBox(width: 5),
-              //         Text(item.age),
-              //       ],
-              //     ),
-              //   ),
             ],
           ),
         ),
@@ -326,18 +289,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  /// Builds the donation type label
-  Widget _buildDonationType(String label) {
-    return Container(
-      margin: const EdgeInsets.only(right: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Text(label, style: const TextStyle(fontSize: 12)),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -362,14 +314,12 @@ class _CartScreenState extends State<CartScreen> {
   }
 }
 
-/// Determines whether to use NetworkImage or AssetImage
-ImageProvider _getImageProvider(String image) {
-  // print("https://sadqahzakaat.com$image");
-  if (image.startsWith('/data/') || image.startsWith('https')) {
-    return NetworkImage(image);
-  } else {
-    return AssetImage(image);
-  }
-}
-
-//
+// /// Determines whether to use NetworkImage or AssetImage
+// ImageProvider _getImageProvider(String image) {
+//   // print("https://sadqahzakaat.com$image");
+//   if (image.startsWith('/data/') || image.startsWith('https')) {
+//     return NetworkImage(image);
+//   } else {
+//     return AssetImage(image);
+//   }
+// }
