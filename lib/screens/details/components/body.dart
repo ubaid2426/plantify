@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:plant_app/constants.dart';
-import 'package:plant_app/data/plant_data.dart';
+// import 'package:plant_app/data/plant_data.dart';
 import 'package:plant_app/models/Plant.dart';
 import 'package:plant_app/models/plant_model.dart';
 import 'package:plant_app/screens/cart/cartScreen.dart';

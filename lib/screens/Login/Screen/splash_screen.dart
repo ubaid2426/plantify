@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:plant_app/components/navigation.dart';
+// import 'package:plant_app/components/navigation.dart';
 import 'package:plant_app/constants.dart';
 import 'package:plant_app/screens/Login/Screen/login_page.dart';
 import 'package:plant_app/screens/Login/Screen/sing_up.dart';

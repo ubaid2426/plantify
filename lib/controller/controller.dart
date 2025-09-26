@@ -30,7 +30,7 @@ class FoodController extends GetxController {
     if (existingDonation != null) {
       // Update the price if it already exists
       // existingDonation.price += donation.price!;
-      existingDonation.price = donation.price! + existingDonation.price!;
+      existingDonation.price = donation.price + existingDonation.price;
     } else {
       cartFood.add(donation); // Add the donation model
     }

@@ -35,12 +35,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:plant_app/components/navigation.dart';
+// import 'package:plant_app/components/navigation.dart';
 import 'package:plant_app/core/service/fire_base_option.dart';
 import 'package:plant_app/core/service/notification_service.dart';
+import 'package:plant_app/screens/Login/Screen/splash_screen.dart';
 import 'package:plant_app/screens/Notification/Screen/Bloc/notification_bloc.dart';
 import 'package:plant_app/screens/Notification/Screen/Bloc/notification_event.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -187,7 +188,7 @@ class MyApp extends StatelessWidget {
             create: (context) => notificationBloc!,
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: Navigation()
+              home: SplashPage()
             ),
           );
         },

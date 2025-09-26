@@ -70,7 +70,7 @@ class _TitleAndPriceState extends State<TitleAndPrice> {
 
   @override
   Widget build(BuildContext context) {
-    double totalPrice = widget.price * quantity;
+    // double totalPrice = widget.price * quantity;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),

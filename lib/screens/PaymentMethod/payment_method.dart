@@ -9,8 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 import 'package:plant_app/components/navigation.dart';
-import 'package:plant_app/models/oder_detail.dart';
-import 'package:plant_app/models/payment_detail.dart';
 import 'package:plant_app/screens/Login/Screen/login_page.dart';
 
 const storage = FlutterSecureStorage();

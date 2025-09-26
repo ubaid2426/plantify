@@ -3,7 +3,6 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plant_app/constants.dart';
 import 'package:plant_app/screens/Message/message.dart';
 import 'package:plant_app/screens/Profile/profile_main.dart';
@@ -57,140 +56,6 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
     'Cart',
     'Profile',
   ];
-  void _showLoginDialog() {
-    //  _checkAndShowTutorial1();
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          // key: navigationButton1,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          contentPadding: EdgeInsets.zero,
-          content: Container(
-            width: double.infinity,
-            height: 310,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              gradient: const LinearGradient(
-                colors: [kPrimaryColor, lightGreen],
-                begin: Alignment.topRight,
-                end: Alignment.topLeft,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Title Section
-                  const Text(
-                    'Donation',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
-                          blurRadius: 5.0,
-                          color: Colors.black38,
-                          offset: Offset(2, 2),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-
-                  // Subtitle Section
-                  Text(
-                    'Which type of donation would you like to perform?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      // ignore: deprecated_member_use
-                      color: Colors.white.withOpacity(0.9),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-
-                  // Button Section
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      //  _buildDonationButton(
-                      //   // key1: navigationButton2,
-                      //   context: context,
-                      //   label: 'Individual\nDonation',
-                      //   icon: Icons.person,
-                      //   color: Colors.grey.shade700,
-                      //   navigateTo: const IndividualHeading(),
-                      // ),
-                      // _buildDonationButton(
-                      //   // key1: navigationButton1,
-                      //   context: context,
-                      //   label: 'Group\nDonation',
-                      //   icon: Icons.group,
-                      //   color: Color.fromARGB(255, 163, 200, 100),
-                      //   navigateTo: const GroupHeading(),
-                      // ),
-                    ],
-                  ),
-                  SizedBox(height: 15),
-
-                  // Single Donation Button (Newly Added)
-                  // _buildDonationButton(
-                  //   context: context,
-                  //   label: 'Single\nDonation',
-                  //   icon: Icons.volunteer_activism,
-                  //   color: Color(0xFF33A248),
-                  //   navigateTo: const SingleHeading(), // Change to actual page
-                  //   ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  /// A reusable method to create styled donation buttons
-  Widget _buildDonationButton({
-    required BuildContext context,
-    required String label,
-    required IconData icon,
-    required Color color,
-    required Widget navigateTo,
-    // required Key key1,
-  }) {
-    return ElevatedButton.icon(
-      // key: key1,
-      // key: navigationButton3,
-      onPressed: () {
-        Navigator.pop(context);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => navigateTo),
-        );
-      },
-      icon: Icon(icon, size: 20, color: Colors.white),
-      label: Text(
-        label,
-        textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 14),
-      ),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-    );
-  }
 
   @override
   void initState() {
@@ -272,20 +137,6 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
     return false;
   }
 
-  // Future<void> _checkAndShowTutorial() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool isTutorialShown = prefs.getBool('istutorialShown') ?? false;
-
-  //   if (!isTutorialShown) {
-  //     createTutorial();
-  //     Future.delayed(Duration.zero, () {
-  //       // ignore: use_build_context_synchronously
-  //       tutorialCoachMark.show(context: context);
-  //     });
-  //     // Mark the tutorial as shown
-  //     prefs.setBool('istutorialShown', true);
-  //   }
-  // }
 
   bool _showBadge(int index) {
     // Show badge for the "Message" tab or "Cart" tab based on conditions.
@@ -322,8 +173,6 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
                   backgroundColor: kPrimaryColor,
                   shape: const CircleBorder(),
                   onPressed: () {
-                    _showLoginDialog();
-                    // _checkAndShowTutorial1();
                     _fabAnimationController.reset();
                     _borderRadiusAnimationController.reset();
                     _borderRadiusAnimationController.forward();
@@ -428,108 +277,4 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
             ),
     );
   }
-
-  // void createTutorial() {
-  //   tutorialCoachMark = TutorialCoachMark(
-  //     targets: _createTargets(),
-  //     colorShadow: const Color.fromARGB(0, 19, 203, 56),
-  //     textSkip: "SKIP",
-  //     paddingFocus: 10,
-  //     opacityShadow: 0.5,
-  //     imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-  //     onFinish: () {
-  //       // print("finish");
-  //       // _checkAndShowTutorialhome();
-  //     },
-  //     onClickTarget: (target) {
-  //       // print('onClickTarget: $target');
-  //     },
-  //     onClickTargetWithTapPosition: (target, tapDetails) {
-  //       // print("target: $target");
-  //       // print(
-  //       // "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
-  //     },
-  //     onClickOverlay: (target) {
-  //       // print('onClickOverlay: $target');
-  //     },
-  //     onSkip: () {
-  //       // print("skip");
-  //       return true;
-  //     },
-  //   );
-  // }
-
-  // List<TargetFocus> _createTargets() {
-  //   List<TargetFocus> targets = [];
-
-  // targets.add(
-  //   TargetFocus(
-  //     keyTarget: navigationButton,
-  //     contents: [
-  //       TargetContent(
-  //         align: ContentAlign.top,
-  //         child: const Column(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           // mainAxisSize: MainAxisSize.max,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           children: <Widget>[
-  //             Text(
-  //               "Three Types of Donation You perform here",
-  //               style: TextStyle(
-  //                 fontWeight: FontWeight.bold,
-  //                 color: Colors.white,
-  //                 fontSize: 20.0,
-  //               ),
-  //             ),
-  //             Text(
-  //               "1.Sadqah",
-  //               style: TextStyle(
-  //                   fontWeight: FontWeight.bold,
-  //                   color: Colors.white,
-  //                   fontSize: 18.0),
-  //             ),
-  //             Padding(
-  //               padding: EdgeInsets.only(top: 10.0),
-  //               child: AutoSizeText(
-  //                 "One Donation, Infinite Blessings! A single act of generosity can brighten someone’s life. Whether it's food, medical aid, or education, your donation creates a lasting impact. Give today and be a source of hope! ",
-  //                 style: TextStyle(color: Colors.white, fontSize: 14),
-  //               ),
-  //             ),
-  //             Text(
-  //               "2.Contributed Donation",
-  //               style: TextStyle(
-  //                   fontWeight: FontWeight.bold,
-  //                   color: Colors.white,
-  //                   fontSize: 18.0),
-  //             ),
-  //             Padding(
-  //               padding: EdgeInsets.only(top: 10.0),
-  //               child: AutoSizeText(
-  //                 "Join hands with others to create a lasting impact! Group donations allow multiple people to contribute towards a shared cause, whether it be building water wells, providing shelter, or supporting orphans. Together, we can complete projects faster and maximize the reward!",
-  //                 style: TextStyle(color: Colors.white, fontSize: 14),
-  //               ),
-  //             ),
-  //             Text(
-  //               "3.Individual Donation",
-  //               style: TextStyle(
-  //                   fontWeight: FontWeight.bold,
-  //                   color: Colors.white,
-  //                   fontSize: 18.0),
-  //             ),
-  //             Padding(
-  //               padding: EdgeInsets.only(top: 10.0),
-  //               child: AutoSizeText(
-  //                 "Be the reason someone’s prayers are answered! Complete an entire donation project on your own. Whether it’s gifting a wheelchair, sponsoring a child’s education, or funding an emergency medical procedure. Your generosity can change lives.",
-  //                 style: TextStyle(color: Colors.white, fontSize: 14),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ],
-  //     shape: ShapeLightFocus.Circle,
-  //   ),
-  // );
-  //   return targets;
-  // }
 }
